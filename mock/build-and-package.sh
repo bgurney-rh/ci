@@ -23,19 +23,9 @@ mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS}/
 # Build the stratisd package (along with the rust cargo vendor tarball)
 echo "Building stratisd test package..."
 
-# If the vendor directory exists, remove it.
-# The contents will be repopulated by "cargo vendor".
-if [ -d ${STRATISD_N}-${STRATISD_V}/vendor ]
-then
-        echo "stratisd vendor directory already exists.  Removing..."
-        rm -rf ${STRATISD_N}-${STRATISD_V}/vendor
-fi
-
 tar czvf ~/rpmbuild/SOURCES/${STRATISD_N}-${STRATISD_V}.tar.gz ${STRATISD_N}-${STRATISD_V}
 cd ${STRATISD_N}-${STRATISD_V}/
-cargo vendor && tar cJf ../${STRATISD_N}-${STRATISD_V}-vendor.tar.xz vendor/
 cd ..
-cp ${STRATISD_N}-${STRATISD_V}-vendor.tar.xz ~/rpmbuild/SOURCES
 echo "Executing rpmbuild for stratisd..."
 rpmbuild -bs --target noarch --nodeps stratisd.spec
 mock ~/rpmbuild/SRPMS/${STRATISD_N}-${STRATISD_V}-${STRATISD_R}.src.rpm -a https://kojipkgs.fedoraproject.org/repos/rawhide/latest/x86_64
