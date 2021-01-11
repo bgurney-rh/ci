@@ -37,7 +37,8 @@ cargo vendor && tar cJf ../${STRATISD_N}-${STRATISD_V}-vendor.tar.xz vendor/
 cd ..
 cp ${STRATISD_N}-${STRATISD_V}-vendor.tar.xz ~/rpmbuild/SOURCES
 echo "Executing rpmbuild for stratisd..."
-rpmbuild -bb stratisd.spec
+rpmbuild -bs --target noarch --nodeps stratisd.spec
+mock ~/rpmbuild/SRPMS/${STRATISD_N}-${STRATISD_V}-${STRATISD_R}.src.rpm -a https://kojipkgs.fedoraproject.org/repos/rawhide/latest/x86_64
 
 # Build the stratis-cli package
 echo "Building stratis-cli test package..."
