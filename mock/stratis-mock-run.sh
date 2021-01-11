@@ -3,20 +3,6 @@ set -e
 
 export STRATIS_DBUS_TIMEOUT=300000
 
-if [ ! -e /etc/stratis/test_config.json ]
-then
-	echo "No test device config found; create a test_config.json"
-	echo "file in /etc/stratis with three devices that can be"
-	echo "overwritten for testing."
-	exit 8
-fi
-
-# Create an array of test devices from the test_config.json file.
-# This is a naive search for device paths starting with "/dev", then
-# stripping out the quote and comma characters.
-TESTDEVS_RESULT=$(./parse_json.py /etc/stratis/test_config.json)
-TESTDEVS=($(echo $TESTDEVS_RESULT | tr ',' ' '))
-
 if [ ! -e stratisd.spec -o ! -e stratis-cli.spec ]
 then
 	echo "Both stratisd.spec and stratis-cli.spec must be present."
