@@ -30,13 +30,3 @@ echo "Executing rpmbuild for stratisd..."
 rpmbuild -bs --target noarch --nodeps stratisd.spec
 mock ~/rpmbuild/SRPMS/${STRATISD_N}-${STRATISD_V}-${STRATISD_R}.src.rpm -a https://kojipkgs.fedoraproject.org/repos/rawhide/latest/x86_64
 
-# Build the stratis-cli package
-echo "Building stratis-cli test package..."
-tar czvf ~/rpmbuild/SOURCES/${STRATIS_CLI_N}-${STRATIS_CLI_V}.tar.gz ${STRATIS_CLI_N}-${STRATIS_CLI_V}
-echo "Executing rpmbuild for stratis-cli..."
-rpmbuild -bb stratis-cli.spec
-
-# Find all of the stratis-related RPM files output via the rpmbuild
-# stage, (including debuginfo and debugsource), and copy them to the
-# staging directory.
-find ~/rpmbuild/RPMS/ -name stratis*.rpm -exec cp -v {} output_rpms/ \;
